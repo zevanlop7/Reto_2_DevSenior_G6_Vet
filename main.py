@@ -18,3 +18,29 @@ servicios = ["consulta", "vacunación", "esterilizacion", "spa"]
     Mascota(2, "lucita", "Perro", "Crillo", "5")
 ]   """
 
+#clases principales
+class SistemaVeterinaria:     # se crea una clase llamado SistemaVeterianaria
+
+    class Persona:            # se crea una clase Persona
+        id_counter = 1                                          #se iniciara el contador para personas en 1
+        def __init__(self, nombre, contacto):
+            self.id = SistemaVeterinaria.Persona.id_counter
+            self.nombre = nombre                                # variable que almacenara el nombre de la persona
+            self.contacto = contacto                            # variable que almacenara el telefono de la persona
+            SistemaVeterinaria.Persona.id_counter += 1          # el contador se autoincrementara a medida que se cree una persona
+
+    class Cliente(Persona):    #se crea una clase cliente que hereda de la clase Persona
+        def __init__(self, nombre, contacto, direccion):
+            super().__init__(nombre, contacto)
+            self.direccion = direccion
+            self.mascotas = []   # el cliente tiene vinculada una mascota   #ojo
+
+        #def agregar_cliente(self, cliente):
+            #self.cliente.append(cliente)
+        
+        def agregar_mascota(self, mascota):
+            self.mascotas.append(mascota)              #se quito self.mascota
+
+        def mostrar_informacion(self):
+            return f"cliente: {self.nombre}, contacto{self.contacto}, direccion: {self.direccion}"  # función para mostrar informacion del cliente 
+
