@@ -131,6 +131,150 @@ def validarHoraNueva(hora):                #funcion que me permite crear un patr
     else:
         return False
 
+def registrar_cliente():                   #funcion que me permite registrar un nuevo cliente
+    print("\n=============Registro de Clientes=======================")
+    cliente_idini = (input("Ingrese el ID del cliente: ")).strip()   #se solicita el ingreso de un id al cliente
+    control = True                        #variable para controlar la verificación del ID
+    while control == True:
+        if not cliente_idini:            # se verifica si no hay un id ingresado, en caso de un enter
+            cliente_idini= input("Ingrese el ID del cliente: ")   #mensaje que solicita que ingrese el id
+        elif cliente_idini.isdigit():    # se verifica si el id ingresado es un numero
+            cliente_id = int(cliente_idini)   # si el id ingresado es un numero se convierte a integer
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)   #se realiza busqueda del cliente por id en la lista de clientes y se trae toda su información
+            if not cliente:              # se verifica si no se encontro un cliente
+                print("El cliente no existe")   
+                nombre = (input("Ingrese el nombre del cliente: ").lower()).strip()
+                con2 = True
+                con3 = True
+                con4 = True
+                while con2 == True:
+                    if not nombre:   
+                        nombre = (input("Ingrese el nombre del cliente: ").lower()).strip()
+                    else:
+                        valnombre = validarEntradaTexto(nombre)
+                        if valnombre == True:
+                            con2 = False
+                            contacto = (input("Ingrese el telefono del cliente: ").lower()).strip()
+                            while con3 == True:
+                                if not contacto:
+                                    contacto = (input("Ingrese el telefono del cliente: ").lower()).strip()
+                                else:
+                                    valcont = contacto.isnumeric()
+                                    if valcont == True:
+                                        con3 = False
+                                        direccion = (input("Ingrese la direccion del cliente: ").lower()).strip()
+                                        while con4 == True:
+                                            if not direccion:
+                                                direccion = (input("Ingrese la direccion del cliente: ").lower()).strip()
+                                            else:
+                                                valdir = validarEntradaalfnum(direccion)
+                                                #dirnum = int(direccion)
+                                                valdirnum = direccion.isdigit()
+                                                if valdirnum == True:
+                                                    direccion = (input("Ingrese la direccion del cliente validad: ").lower()).strip()
+                                                elif valdir == True:
+                                                    con4 = False
+                                                    cliente = SistemaVeterinaria.Cliente(nombre, contacto, direccion)   #se realiza la creación del objeto que para este caso se crea un cliente
+                                                    clientes.append(cliente)
+                                                    print(f"El cliente {cliente.nombre} fue agregado con exito. ID: {cliente.id}")
+                                                    #cliente.agregar_cliente(cliente)
+                                                    #cliente.agregar_mascota(mascota)
+                                                    con2 = False
+                                                    control = False
+                                                else:
+                                                    direccion = (input("Ingrese la direccion del cliente: ").lower()).strip() 
+                                    else:
+                                        contacto = (input("Ingrese el telefono del cliente: ").lower()).strip()
+                        else: 
+                            nombre = (input("Ingrese el nombre del cliente: ").lower()).strip()
+            else:
+                print(f"El cliente {cliente.nombre} ya existe")
+                break
+        else:
+            cliente_idini = (input("Ingrese el ID del cliente: ")).strip()  #verificar
+
+def registrar_mascota():                   # funcion para registrar una mascota validando cada campo ingresado
+    print("\n=============Registro de Mascotas=======================")
+    cliente_idini = (input("Ingrese el ID del cliente para asociar a la mascota: ")).strip()
+    conclimas = True
+    while conclimas == True:
+        if not cliente_idini:
+            cliente_idini= input("Ingrese el ID del cliente para asociar a la mascota: ")
+        elif cliente_idini.isdigit():
+            cliente_id = int(cliente_idini)
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)
+            if not cliente:
+                print(f"El cliente no existe con el ID. {cliente_id}, debe registrarse...")
+                return
+            else:
+                print(f"El ID: {cliente_id} pertenece al cliente: {cliente.nombre} ")
+
+                mascota_idini = (input("Ingrese el ID de la mascota: ")).strip()
+                conm1 = True
+                conm2 = True
+                conm3 = True
+                conm4 = True
+                conm5 = True
+                while conm1 == True:
+                    if not mascota_idini:
+                        mascota_idini = (input("Ingrese el ID de la mascota: ")).strip()
+                    elif mascota_idini.isdigit():
+                        #conm1 = False
+                        mascota_id = int(mascota_idini)
+                        mascota = next((m  for m in mascotas if m.id == mascota_id), None)
+                        if not mascota:
+                            print("La mascota no existe")
+                            nombre_mascota = (input("Ingrese el nombre de la mascota: ").lower()).strip()
+                            conm1 = False
+                            while conm2 == True:
+                                if not nombre_mascota:
+                                    nombre_mascota = (input("Ingrese el nombre de la mascota: ").lower()).strip()
+                                else:
+                                    valnombremas = validarEntradaTexto(nombre_mascota)
+                                    if valnombremas == True:
+                                        especie = (input("Ingrese la especie de la mascota: ").lower()).strip()
+                                        conm2 = False
+                                        while conm3 == True:
+                                            if not especie:
+                                                especie = (input("Ingrese la especie de la mascota: ").lower()).strip()
+                                            else:
+                                                valespecie = validarEntradaTexto(especie)
+                                                if valespecie == True:
+                                                    conm3 = False
+                                                    raza = (input("Ingrese la raza de la mascota: ").lower()).strip()
+                                                    while conm4 == True:
+                                                        if not raza:
+                                                            raza = (input("Ingrese la raza de la mascota: ").lower()).strip()
+                                                        else:
+                                                            valraza = validarEntradaTexto(raza)
+                                                            if valraza == True:
+                                                                conm4 = False
+                                                                edad = (input("ingrese la edad de la mascota: "))
+                                                                while conm5 == True:
+                                                                    if not edad:
+                                                                        edad = (input("ingrese la edad de la mascota: "))
+                                                                    elif edad.isdigit():
+                                                                        mascota = SistemaVeterinaria.Mascota(nombre_mascota, especie, raza, edad) #se realiza la creación del objeto que para este caso se crea una mascota
+                                                                        cliente.agregar_mascota(mascota)
+                                                                        mascotas.append(mascota)
+                                                                        print(f"La Mascota {mascota.nombre} fue registrada con exito. ID: {mascota.id}")
+                                                                        conm5 = False
+                                                                        conclimas = False
+                                                                    else:
+                                                                        edad = (input("ingrese la edad de la mascota valida: "))
+                                                            else:
+                                                                raza = (input("Ingrese la raza de la mascota: ").lower()).strip()             
+                                                else:
+                                                    especie = (input("Ingrese la especie de la mascota: ").lower()).strip()                         
+                                    else:
+                                        nombre_mascota = (input("Ingrese un nombre de la mascota valido: ").lower()).strip()
+                        else:
+                            print(f"La mascota {mascota.nombre} ya existe")
+                            break
+                    else:
+                        mascota_idini = (input("Ingrese el ID de la mascota: ")).strip()
+        else:
+            cliente_idini = (input("Ingrese un ID valido del cliente para asociar a la mascota: ")).strip()
 
 def programar_cita():                      # funcion para programar una cita, validando cada campo y evitando que se cometan errores o malos ingresos
     conpro1 = True
@@ -374,4 +518,5 @@ def actualizar_cita():                     # funcion para actualizar una cita
                 conact3 = False                                                                                                                      
         else:
             indice = input("Ingrese el número valido de la cita a actualizar: ").strip()                                                            
+
 
