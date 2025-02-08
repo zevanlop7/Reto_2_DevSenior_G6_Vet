@@ -519,4 +519,83 @@ def actualizar_cita():                     # funcion para actualizar una cita
         else:
             indice = input("Ingrese el número valido de la cita a actualizar: ").strip()                                                            
 
+#cancelar cita
+def cancelar_cita():                      # funcion para cancelar una cita
+    print("\n================Cancelación de citas===================")
+    cliente_id = input("Ingrese el ID del cliente: ").strip()
+    concan1 = True
+    concan2 = True
+    while concan1 == True:
+        cliente_id = input("Ingrese el ID del cliente: ").strip()
+        if not cliente_id:
+            cliente_id = input("Ingrese el ID del cliente: ").strip()
+        elif cliente_id.isdigit():
+            cliente_id = int(cliente_id)
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)
+            if not cliente:
+                print ("Cliente no encontrado, debe registrarse. ")
+                return
+            else:
+                print(f"El ID: {cliente.id} pertenece al cliente {cliente.nombre}")
+                concan1 = False
+        else:
+            cliente_id = input("Ingrese un ID valido del cliente: ").strip()
 
+    while concan2 == True:                
+        mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                
+        if not mascota_id:
+            mascota_id = input("Ingrese el ID de la mascota: ").strip()
+        elif mascota_id.isdigit():
+            mascota_id = int(mascota_id)
+            mascota = next((m  for m in mascotas if m.id == mascota_id), None)   
+            if not mascota:
+                print ("La Mascota no fue encontrada, debe registrarla. ")
+                return
+            else:
+                print(f"El ID {mascota_id} pertenece a la mascota {mascota.nombre}")
+                concan2 = False
+        else:
+            mascota_id = input("Ingrese un ID valido de la mascota: ").strip()
+
+    for cita in enumerate(mascota.historia_clinica):   # i,
+        mascota.mostrar_historial()
+        cita_id = input("\nIngrese el ID de la cita a cancelar: ").strip()
+        cita = next((c for c in mascota.historia_clinica if str(c.id) == cita_id), None)
+        mascota.historia_clinica.remove(cita)
+        print(f"\nCita {cita_id} cancelada exitosamente.")  
+
+#Menu Principal
+def menu_principal():                     # funcion para mostrar un menu
+    while True:
+        print("\n=================Veterinaria Huella Feliz====================")
+        print("========================Bienvenidos==========================")
+        print("=======================Menu Principal========================")
+        print("1. Registrar CLiente")
+        print("2. Registrar Mascota")
+        print("3. Programar Cita ")
+        print("4. Consultar Historial")
+        print("5. Actualizar cita")
+        print("6. Cancelar cita")
+        print("7. Salir")
+        print("\n")
+        opcion = input("Seleccione una opcion: ").strip()
+        if opcion == "1":
+            registrar_cliente()
+        elif opcion == "2":
+            registrar_mascota()
+        elif opcion == "3":
+            programar_cita()
+        elif opcion == "4":
+            consultar_historial()
+        elif opcion == "5":
+            actualizar_cita()
+        elif opcion == "6":
+            cancelar_cita()    
+        elif opcion == "7":
+            print("Saliendo del sistema, Gracias.")
+            break
+        else:
+            print("Opcion invalida, intente de nuevo")
+
+menu_principal()                          # llamado de la la funcion menu principal
