@@ -71,3 +71,63 @@ class SistemaVeterinaria:     # se crea una clase llamado SistemaVeterianaria
             for clave, valor in kwargs.items():
                 if hasattr(self, clave):
                     setattr(self, clave, valor)"""
+
+    class Cita:                #Se crea una clase cita          
+        id_counter = 1                      #funcion que inicializa las citas en 1 a medida que se van creando
+        def __init__(self, fecha, hora, servicio, veterinario):
+            self.id = SistemaVeterinaria.Cita.id_counter
+            self.fecha = fecha
+            self.hora = hora
+            self.servicio = servicio
+            self.veterinario = veterinario  
+            SistemaVeterinaria.Cita.id_counter += 1            #para incrementar las citas en 1 a medida que se crean
+
+        def actualizar_cita(self, **kwargs):
+            for clave, valor in kwargs.items():
+                if hasattr(self, clave):
+                    setattr(self, clave, valor)
+
+#Funciones del sistema, definicion de las subclases
+def validarEntradaTexto(texto):            #funcion que me permite crear un patron y realizar comparaciones de solo texto
+    patron ="[a-z áéíóú]+$"  
+    if re.match(patron, texto):
+        return True
+    else:
+        print("La entrada no es valida, solo se permiten letras y espacios")
+        return False
+
+def validarEntradaalfnum(texto):           #funcion que me permite crear un patron para validar entradas de letras, números y espacios
+    patron ="[a-z 0-9#-áéíóú]+$"  #patron ="[a-zA-Z0-9_]+$"
+    if re.match(patron, texto):
+        return True
+    else:
+        print("La entrada no es valida, solo se permiten letras, numeros, espacios # y -")
+        return False
+    
+def validarFecha(fecha):                   #funcion que me permite crear un patron para validar entradas de solo numeros y - para las fechas
+    patron ="[0-9-]+$"
+    if re.match(patron, fecha):
+        return True
+    else:
+        return False
+
+def validarFechaNueva(fecha):              ##funcion que me permite crear un patron para validar entradas de solo numeros, - y espacios para las fechas nuevas
+    patron ="[0-9- ' ']+$"
+    if re.match(patron, fecha):
+        return True
+    else:
+        return False
+    
+def validarHora(hora):                     #funcion que me permite crear un patron para validar entradas de solo numeros y : para las horas
+    patron ="[0-9:]+$"
+    if re.match(patron, hora):
+        return True
+    else:
+        return False
+def validarHoraNueva(hora):                #funcion que me permite crear un patron para validar entradas de solo numeros, : y espacios para las horas nuevas
+    patron ="[0-9: ' ']+$"
+    if re.match(patron, hora):
+        return True
+    else:
+        return False
+
