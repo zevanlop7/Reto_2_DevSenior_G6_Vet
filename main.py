@@ -276,3 +276,247 @@ def registrar_mascota():                   # funcion para registrar una mascota 
         else:
             cliente_idini = (input("Ingrese un ID valido del cliente para asociar a la mascota: ")).strip()
 
+def programar_cita():                      # funcion para programar una cita, validando cada campo y evitando que se cometan errores o malos ingresos
+    conpro1 = True
+    conpro2 = True
+    conpro3 = True
+    conpro4 = True
+    conpro5 = True
+    conpro6 = True
+    while conpro1 == True:
+        cliente_id = input("Ingrese el ID del cliente: ").strip()
+        if not cliente_id:
+            cliente_id = input("Ingrese el ID del cliente: ").strip()
+        #validinicli = cliente_idini.isdigit()
+        elif cliente_id.isdigit():
+            cliente_id = int(cliente_id)
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)
+            if not cliente:
+                print ("Cliente no encontrado, debe registrarse. ")
+                return
+            else:
+                print(f"El ID: {cliente.id} pertenece al cliente {cliente.nombre}")
+                #mascota_idini = input("Ingrese el ID de la mascota: ").strip()
+                conpro1 = False
+                while conpro2 == True:
+                    mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                    if not mascota_id:
+                        mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                    elif mascota_id.isdigit():
+                        mascota_id = int(mascota_id)
+                        mascota = next((m  for m in mascotas if m.id == mascota_id), None)   #se modifico cliente.mascota
+                        if not mascota:
+                            print ("La Mascota no fue encontrada, debe registrarla. ")
+                            return
+                        else:
+                            print(f"El ID {mascota_id} pertenece a la mascota {mascota.nombre}")
+                            #fecha = input("Ingrese una fecha para la consulta (AAAA-MM-DD): ").strip()
+                            conpro2 = False
+                            while conpro3 == True:
+                                fecha = input("Ingrese una fecha para la consulta (AAAA-MM-DD): ").strip()
+                                if not fecha:
+                                    fecha = input("Ingrese una fecha para la consulta no se aceptan espacios (AAAA-MM-DD): ").strip()
+                                else:
+                                    valfecha = validarFecha(fecha)
+                                    if valfecha == True:
+                                        try:
+                                            datetime.strptime(fecha, "%Y-%m-%d")
+                                            conpro3 = False                                 #verificar
+                                            while conpro4 ==True:
+                                                hora= input("Ingrese la hora para la consulta (HH:MM): ").strip()
+                                                if not hora:
+                                                    hora= input("Ingrese la hora para la consulta (HH:MM): ").strip()
+                                                else:
+                                                    valhora = validarHora(hora)
+                                                    if valhora == True:
+                                                        try:
+                                                            datetime.strptime(hora, "%H:%M")
+                                                            conpro4 = False
+                                                            while conpro5 == True:
+                                                                servicio = input("Elija el tipo de servicio (consulta, vacunación, esterilizacion, spa): ").strip()
+                                                                if not servicio:
+                                                                    servicio = input("Elija el tipo de servicio (consulta, vacunación, esterilizacion, spa): ").strip()
+                                                                elif validarEntradaTexto(servicio):
+                                                                    #veterinario =  input("Ingrese el nombre del veterinario: ").strip()
+                                                                    conpro5 = False
+                                                                    while conpro6 == True:
+                                                                        veterinario =  input("Ingrese el nombre del veterinario: ").strip()
+                                                                        if not veterinario:
+                                                                            veterinario =  input("Ingrese el nombre del veterinario: ").strip()
+                                                                        elif validarEntradaTexto(veterinario):
+                                                                            cita = SistemaVeterinaria.Cita(fecha, hora, servicio, veterinario)
+                                                                            mascota.agregar_cita(cita)
+                                                                            #mascota.agregar_al_historial(cita)
+                                                                            print(f"¡cita programada con exito!, ID: {cita.id}")
+                                                                            conpro6 = False
+                                                                        else:
+                                                                            veterinario =  input("Ingrese el nombre del veterinario: ").strip()
+                                                                else: 
+                                                                    servicio = input("Elija un servicio valido (consulta, vacunación, esterilizacion, spa): ").strip()
+                                                        except:
+                                                            hora= input("Ingrese una hora con el formato solicitado (HH-MM): ").strip()
+                                                    else:
+                                                        hora= input("Ingrese una hora correcta para la consulta (HH-MM): ").strip()      
+                                        except:
+                                            print("Ingrese una fecha con el formato solicitado (AAAA-MM-DD)")
+                                    else:
+                                        fecha = input("Ingrese una fecha correcta para la consulta (AAAA-MM-DD): ").strip()
+        else:
+            cliente_id = input("Ingrese un ID valido del cliente: ").strip()
+       
+
+def consultar_historial():                 #funcion para consultar el historial de una mascota
+    print("===============Consultar Historial de citas=====================")
+    conhis1 = True
+    conhis2 = True
+    while conhis1 == True:
+        cliente_id = input("Ingrese el ID del cliente: ").strip()
+        if not cliente_id:
+            cliente_id = input("Ingrese el ID del cliente: ").strip()
+        #validinicli = cliente_idini.isdigit()
+        elif cliente_id.isdigit():
+            cliente_id = int(cliente_id)
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)
+            if not cliente:
+                print ("Cliente no encontrado, debe registrarse. ")
+                return
+            else:
+                print(f"El ID: {cliente.id} pertenece al cliente {cliente.nombre}")
+                #mascota_idini = input("Ingrese el ID de la mascota: ").strip()
+                conhis1 = False
+                while conhis2 == True:
+                    mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                    if not mascota_id:
+                        mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                    elif mascota_id.isdigit():
+                        mascota_id = int(mascota_id)
+                        mascota = next((m  for m in mascotas if m.id == mascota_id), None)   
+                        if not mascota:
+                            print ("La Mascota no fue encontrada, debe registrarla. ")
+                            return
+                        else:
+                            print(f"El ID {mascota_id} pertenece a la mascota {mascota.nombre}")
+                            conhis2 = False
+                            mascota.mostrar_historial()
+        else:
+            cliente_id = input("Ingrese un ID del cliente valido: ").strip()
+                        
+def actualizar_cita():                     # funcion para actualizar una cita
+    print("===============Actualización de citas=====================")
+    conact1 = True
+    conact2 = True
+    conact3 = True
+    conact4 = True
+    conact5 = True
+    conact6 = True
+    conact7 = True
+    while conact1 == True:
+        cliente_id = input("Ingrese el ID del cliente: ").strip()
+        if not cliente_id:
+            cliente_id = input("Ingrese el ID del cliente: ").strip()
+        elif cliente_id.isdigit():
+            cliente_id = int(cliente_id)
+            cliente = next((c  for c in clientes if c.id == cliente_id), None)
+            if not cliente:
+                print ("Cliente no encontrado, debe registrarse. ")
+                return
+            else:
+                print(f"El ID: {cliente.id} pertenece al cliente {cliente.nombre}")
+                conact1 = False
+        else:
+            cliente_id = input("Ingrese un ID valido del cliente: ").strip() 
+
+    while conact2 == True:                
+        mascota_id = input("Ingrese el ID de la mascota: ").strip()
+                #while conact2 == True:
+                    #mascota_id = input("Ingrese el ID de la mascota: ").strip()
+        if not mascota_id:
+            mascota_id = input("Ingrese el ID de la mascota: ").strip()
+        elif mascota_id.isdigit():
+            mascota_id = int(mascota_id)
+            mascota = next((m  for m in mascotas if m.id == mascota_id), None)   
+            if not mascota:
+                print ("La Mascota no fue encontrada, debe registrarla. ")
+                return
+            else:
+                print(f"El ID {mascota_id} pertenece a la mascota {mascota.nombre}")
+                #fecha = input("Ingrese una fecha para la consulta (AAAA-MM-DD): ").strip()
+                conact2 = False
+        else:
+            mascota_id = input("Ingrese un ID valido de la mascota: ").strip()
+            
+
+    if not mascota.historia_clinica:
+        print(f"No hay citas relacionadas con {mascota.nombre}")
+    else:
+        print("Citas disponibles para actualizar")
+        for cita in enumerate(mascota.historia_clinica):   # i,
+            mascota.mostrar_historial()
+        indice = input("Ingrese el número de la cita a actualizar: ").strip() 
+    
+    while conact3 == True:
+        if not indice:
+            indice = input("Ingrese el número de la cita a actualizar: ").strip()
+        elif indice.isdigit():
+            indicef = int(indice) -1
+            if indicef < 0 or indicef >= len (mascota.historia_clinica):
+                indice = input("Ingrese el número la cita valido a actualizar: ").strip()
+            else:
+                cita = mascota.historia_clinica[indicef]
+                #print(cita)
+                print("Deje en blanco los campos que no desea actualizar")
+                nueva_fecha = input("Ingrese la nueva fecha (AAAA-MM-DD): ").strip()
+                while conact4 == True:
+                    if not nueva_fecha:
+                        #if nueva_fecha:
+                        #datetime.strptime(nueva_fecha, "%Y-%m-%d")
+                        #cita.actualizar(fecha = nueva_fecha)
+                        conact4 = False
+                    elif validarFechaNueva(nueva_fecha):
+                        try:
+                            datetime.strptime(nueva_fecha, "%Y-%m-%d")
+                            cita.actualizar_cita(fecha = nueva_fecha)
+                            conact4 = False
+                        except:
+                            print("Ingrese una nueva fecha con el formato solicitado (AAAA-MM-DD)")
+                    else:
+                        nueva_fecha = input("Ingrese la nueva fecha (AAAA-MM-DD): ").strip()            
+                                
+                nueva_hora = input("Ingrese la nueva hora (HH:MM): ").strip()
+                while conact5 == True:                  
+                    if not nueva_hora:
+                        #if nueva_hora:
+                            #datetime.strptime(nueva_hora, "%H:%M")
+                            #cita.actualizar_cita(hora = nueva_hora)
+                            conact5 = False
+                    elif validarHoraNueva(nueva_hora):
+                        try:
+                            datetime.strptime(nueva_hora, "%H:%M")
+                            cita.actualizar_cita(hora = nueva_hora)
+                            conact5 = False
+                        except:
+                            hora= input("Ingrese una hora con el formato solicitado (HH-MM): ").strip() 
+                    else:
+                        nueva_hora = input("Ingrese la nueva hora (HH:MM): ").strip()
+
+                while conact6 == True:
+                    nuevo_servicio = input("Elija el nuevo servicio (consulta, vacunación, esterilización, spa: ").strip()
+                    if validarEntradaTexto(nuevo_servicio):
+                        cita.actualizar_cita(servicio = nuevo_servicio)
+                        conact6 = False
+                    else:
+                        nuevo_servicio = input("Elija el nuevo servicio (consulta, vacunación, esterilización, spa: ").strip()                            
+                                                                
+                while conact7 == True:
+                    nuevo_veterinario = input("Ingrese el nuevo veterinario: ").strip()
+                    if validarEntradaTexto(nuevo_veterinario):
+                        cita.actualizar_cita(veterinario = nuevo_veterinario)
+                        print(f"¡Cita actualizada con éxito!. ID: {cita.id}")
+                        conact7 = False
+                    else:
+                        nuevo_veterinario = input("Ingrese el nuevo veterinario: ").strip()
+                conact3 = False                                                                                                                      
+        else:
+            indice = input("Ingrese el número valido de la cita a actualizar: ").strip()                                                            
+
+
