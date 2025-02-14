@@ -468,7 +468,7 @@ def actualizar_cita():                     # funcion para actualizar una cita
                 print("Deje en blanco los campos que no desea actualizar")
                 nueva_fecha = input("Ingrese la nueva fecha (AAAA-MM-DD): ").strip()
                 while conact4 == True:
-                    if not nueva_fecha:
+                    if not nueva_fecha:   #en caso que se desee dejar la misma información
                         #if nueva_fecha:
                         #datetime.strptime(nueva_fecha, "%Y-%m-%d")
                         #cita.actualizar(fecha = nueva_fecha)
@@ -485,7 +485,7 @@ def actualizar_cita():                     # funcion para actualizar una cita
                                 
                 nueva_hora = input("Ingrese la nueva hora (HH:MM): ").strip()
                 while conact5 == True:                  
-                    if not nueva_hora:
+                    if not nueva_hora:   #en caso que se desee dejar la misma información
                         #if nueva_hora:
                             #datetime.strptime(nueva_hora, "%H:%M")
                             #cita.actualizar_cita(hora = nueva_hora)
@@ -512,7 +512,7 @@ def actualizar_cita():                     # funcion para actualizar una cita
                                                                 
                 while conact7 == True:
                     nuevo_veterinario = input("Ingrese el nuevo veterinario: ").strip()
-                    if not nuevo_veterinario:
+                    if not nuevo_veterinario:   #en caso que se desee dejar la misma información
                         conact7 = False
                     elif validarEntradaTexto(nuevo_veterinario):
                         cita.actualizar_cita(veterinario = nuevo_veterinario)
