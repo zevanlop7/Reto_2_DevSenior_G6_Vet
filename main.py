@@ -1,5 +1,6 @@
 #GestióndeClientesyMascotasReto 2 - Gestión de Veterinaria usandoProgramación Orientada a Objetos (Terminal)
-#Integrantes: Daniela Palechor y Ever Lopez
+#Veterinaria Huella Feliz, siempre en busca de su felicidad
+#Integrantes: Daniela Andrea Palechor Muñoz y Ever Andres Lopez Camayo
 from abc import ABC, abstractmethod
 from datetime import datetime
 import re   #libreria para crear patrones y realizar comparaciones
@@ -8,11 +9,11 @@ import re   #libreria para crear patrones y realizar comparaciones
 clientes = []
 mascotas = []
 servicios = ["consulta", "vacunación", "esterilizacion", "spa"]
-#clientes = [
+"""#clientes = [
 #    Cliente(1, "Daniela Palechor", "3124567852", "calle 5 Nro. 26-45"),
 #    Cliente(2, "Andres Agudelo", "3145824653", "calle 4 Nro. 23-36")
 #]
-#mascotas = []
+#mascotas = []"""
 """mascotas = [
     Mascota(1, "Toby", "Perro", "Pastor Aleman", "3"),
     Mascota(2, "lucita", "Perro", "Crillo", "5")
@@ -501,7 +502,9 @@ def actualizar_cita():                     # funcion para actualizar una cita
 
                 while conact6 == True:
                     nuevo_servicio = input("Elija el nuevo servicio (consulta, vacunación, esterilización, spa: ").strip()
-                    if validarEntradaTexto(nuevo_servicio):
+                    if not nuevo_servicio:
+                        conact6 = False
+                    elif validarEntradaTexto(nuevo_servicio):
                         cita.actualizar_cita(servicio = nuevo_servicio)
                         conact6 = False
                     else:
@@ -509,7 +512,9 @@ def actualizar_cita():                     # funcion para actualizar una cita
                                                                 
                 while conact7 == True:
                     nuevo_veterinario = input("Ingrese el nuevo veterinario: ").strip()
-                    if validarEntradaTexto(nuevo_veterinario):
+                    if not nuevo_veterinario:
+                        conact7 = False
+                    elif validarEntradaTexto(nuevo_veterinario):
                         cita.actualizar_cita(veterinario = nuevo_veterinario)
                         print(f"¡Cita actualizada con éxito!. ID: {cita.id}")
                         conact7 = False
