@@ -502,7 +502,7 @@ def actualizar_cita():                     # funcion para actualizar una cita
 
                 while conact6 == True:
                     nuevo_servicio = input("Elija el nuevo servicio (consulta, vacunación, esterilización, spa: ").strip()
-                    if not nuevo_servicio:
+                    if not nuevo_servicio:     #en caso que se desee dejar la misma información
                         conact6 = False
                     elif validarEntradaTexto(nuevo_servicio):
                         cita.actualizar_cita(servicio = nuevo_servicio)
